@@ -1,8 +1,11 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 import sqlite3
 import re
 from hashlib import sha256
+import pandas as pd
+import openpyxl
+
 
 
 class LoginWindow(tk.Tk):
@@ -18,7 +21,7 @@ class LoginWindow(tk.Tk):
         # Create database and tables
         self.conn = sqlite3.connect('bike_rental.db')
         self.cursor = self.conn.cursor()
-        self.create_tables()
+        self.create_tables() # Creates tables needed to run and use the application
         self.create_admin_account()  # Creates default admin account if it doesn't exist
 
         # Create login form
@@ -165,6 +168,15 @@ class BikeRentalApp(tk.Toplevel):
                                        padx=10, pady=5)
         self.logout_button.pack(side=tk.RIGHT, padx=20)
 
+        # Add export button for admin users
+        if self.employee[2]:  # Check if user is admin
+            self.export_button = tk.Button(self.top_frame, text="Export to Excel",
+                                           command=self.export_to_excel,
+                                           bg="#2196F3", fg="white",
+                                           font=("Arial", 10),
+                                           padx=10, pady=5)
+            self.export_button.pack(side=tk.RIGHT, padx=20)
+
         self.form_frame = tk.Frame(self, bg="#f0f0f0", padx=20)
         self.form_frame.pack(side=tk.LEFT, pady=20, fill=tk.BOTH, expand=True)
 
@@ -204,6 +216,33 @@ class BikeRentalApp(tk.Toplevel):
 
         # Initial update of client list
         self.update_client_list()
+
+    def export_to_excel(self):
+        try:
+            # Fetch all clients from database
+            self.cursor.execute("SELECT id, name, email, phone, rental_type FROM clients")
+            clients = self.cursor.fetchall()
+
+            if not clients:
+                messagebox.showinfo("Info", "No clients to export")
+                return
+
+            # Create DataFrame
+            df = pd.DataFrame(clients, columns=['ID', 'Name', 'Email', 'Phone', 'Rental Type'])
+
+            # Ask user for save location
+            file_path = filedialog.asksaveasfilename(
+                defaultextension='.xlsx',
+                filetypes=[("Excel files", "*.xlsx")],
+                initialfile="bike_rental_clients.xlsx"
+            )
+
+            if file_path:
+                # Export to Excel
+                df.to_excel(file_path, index=False, sheet_name='Clients')
+                messagebox.showinfo("Success", "Client data exported successfully!")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred while exporting: {str(e)}")
 
     def init_client_list_frame(self):
         # Create a canvas and scrollbar for the client list
