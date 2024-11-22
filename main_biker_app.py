@@ -11,7 +11,7 @@ import openpyxl
 class LoginWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Employee Login")
+        self.title("Medewerker Login")
         self.geometry("400x300")
         self.configure(bg="#f0f0f0")
 
@@ -75,7 +75,7 @@ class LoginWindow(tk.Tk):
         main_frame.place(relx=0.5, rely=0.5, anchor="center")
 
         # Title
-        title_label = tk.Label(main_frame, text="Employee Login",
+        title_label = tk.Label(main_frame, text="Medewerker Login",
                                font=("Arial", 18, "bold"), bg="#f0f0f0")
         title_label.pack(pady=(0, 20))
 
@@ -83,7 +83,7 @@ class LoginWindow(tk.Tk):
         username_frame = tk.Frame(main_frame, bg="#f0f0f0")
         username_frame.pack(fill="x", pady=5)
 
-        username_label = tk.Label(username_frame, text="Username:",
+        username_label = tk.Label(username_frame, text="Gebruikersnaam:",
                                   bg="#f0f0f0", font=("Arial", 12))
         username_label.pack(anchor="w")
 
@@ -94,7 +94,7 @@ class LoginWindow(tk.Tk):
         password_frame = tk.Frame(main_frame, bg="#f0f0f0")
         password_frame.pack(fill="x", pady=5)
 
-        password_label = tk.Label(password_frame, text="Password:",
+        password_label = tk.Label(password_frame, text="Wachtwoord:",
                                   bg="#f0f0f0", font=("Arial", 12))
         password_label.pack(anchor="w")
 
@@ -152,7 +152,7 @@ class BikeRentalApp(tk.Toplevel):
         super().__init__()
         self.employee = employee  # Store employee info (id, username, is_admin)
 
-        self.title(f"Bike Rental Store - Logged in as {employee[1]}")
+        self.title(f"Biker applicatie - Ingelogd als {employee[1]}")
         self.geometry("1920x1080")
         self.configure(bg="#f0f0f0")
 
@@ -161,7 +161,7 @@ class BikeRentalApp(tk.Toplevel):
         self.top_frame.pack(side=tk.TOP, pady=20)
 
         # Add logout button
-        self.logout_button = tk.Button(self.top_frame, text="Logout",
+        self.logout_button = tk.Button(self.top_frame, text="Log uit",
                                        command=self.destroy,
                                        bg="#f44336", fg="white",
                                        font=("Arial", 10),
@@ -170,7 +170,7 @@ class BikeRentalApp(tk.Toplevel):
 
         # Add export button for admin users
         if self.employee[2]:  # Check if user is admin
-            self.export_button = tk.Button(self.top_frame, text="Export to Excel",
+            self.export_button = tk.Button(self.top_frame, text="Exporteer naar Excel",
                                            command=self.export_to_excel,
                                            bg="#2196F3", fg="white",
                                            font=("Arial", 10),
@@ -192,9 +192,9 @@ class BikeRentalApp(tk.Toplevel):
         self.create_table()
 
         # Create form fields
-        tk.Label(self.top_frame, text="Client Registration", font=("Arial", 18), bg="#f0f0f0").pack(side=tk.LEFT)
+        tk.Label(self.top_frame, text="Klant Registratie", font=("Arial", 18), bg="#f0f0f0").pack(side=tk.LEFT)
 
-        tk.Label(self.form_frame, text="Name:", bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=10, sticky="e")
+        tk.Label(self.form_frame, text="Naam:", bg="#f0f0f0").grid(row=0, column=0, padx=10, pady=10, sticky="e")
         self.name_entry = tk.Entry(self.form_frame, font=("Arial", 12))
         self.name_entry.grid(row=0, column=1, padx=10, pady=10)
 
@@ -202,15 +202,15 @@ class BikeRentalApp(tk.Toplevel):
         self.email_entry = tk.Entry(self.form_frame, font=("Arial", 12))
         self.email_entry.grid(row=1, column=1, padx=10, pady=10)
 
-        tk.Label(self.form_frame, text="Phone:", bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=10, sticky="e")
+        tk.Label(self.form_frame, text="Telefoon:", bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=10, sticky="e")
         self.phone_entry = tk.Entry(self.form_frame, font=("Arial", 12))
         self.phone_entry.grid(row=2, column=1, padx=10, pady=10)
 
-        tk.Label(self.form_frame, text="Rental Type:", bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=10, sticky="e")
+        tk.Label(self.form_frame, text="Type Fiets:", bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=10, sticky="e")
         self.rental_type = ttk.Combobox(self.form_frame, values=["Bike", "Electric Bike"], font=("Arial", 12))
         self.rental_type.grid(row=3, column=1, padx=10, pady=10)
 
-        self.register_button = tk.Button(self.form_frame, text="Register Client", command=self.register_client,
+        self.register_button = tk.Button(self.form_frame, text="Registreer Klant", command=self.register_client,
                                          bg="#4CAF50", fg="white", font=("Arial", 12), padx=10, pady=5)
         self.register_button.grid(row=4, column=0, columnspan=2, padx=10, pady=20)
 
