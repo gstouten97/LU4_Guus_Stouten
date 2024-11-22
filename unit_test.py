@@ -1,5 +1,3 @@
-from pickle import FALSE
-
 import pytest
 
 import main_biker_app

@@ -67,7 +67,7 @@ class LoginWindow(tk.Tk):
             VALUES (?, ?, ?)""", accounts)
             self.conn.commit()
         except sqlite3.Error as e:
-            print(f"Error creating admin account: {e}")
+            print(f"Fout bij het maken van admin-account: {e}")
 
     def create_login_form(self):
         # Create main frame
@@ -117,7 +117,7 @@ class LoginWindow(tk.Tk):
         password = self.password_entry.get()
 
         if not username or not password:
-            messagebox.showerror("Error", "Please fill in all fields")
+            messagebox.showerror("Error", "Vul alle velden in")
             return
 
         hashed_password = sha256(password.encode()).hexdigest()
@@ -135,7 +135,7 @@ class LoginWindow(tk.Tk):
                 bike_rental_app.protocol("WM_DELETE_WINDOW",
                                          lambda: self.on_rental_app_close(bike_rental_app))
             else:
-                messagebox.showerror("Error", "Invalid username or password")
+                messagebox.showerror("Error", "Ongeldige gebruikersnaam of wachtwoord")
         except sqlite3.Error as e:
             messagebox.showerror("Error", f"Database error: {e}")
 
@@ -219,7 +219,7 @@ class BikeRentalApp(tk.Toplevel):
         self.client_id_entry = tk.Entry(self.form_frame, font=("Arial", 12))
         self.client_id_entry.grid(row=7, column=1, padx=10, pady=10)
 
-        self.update_button = tk.Button(self.form_frame, text="Update Client", command=self.update_client,
+        self.update_button = tk.Button(self.form_frame, text="Update Klant", command=self.update_client,
                                        bg="#2196F3", fg="white", font=("Arial", 12), padx=10, pady=5)
         self.update_button.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
 
@@ -248,7 +248,7 @@ class BikeRentalApp(tk.Toplevel):
             clients = self.cursor.fetchall()
 
             if not clients:
-                messagebox.showinfo("Info", "No clients to export")
+                messagebox.showinfo("Info", "Geen klanten om te exporteren")
                 return
 
             # Create DataFrame
@@ -264,9 +264,9 @@ class BikeRentalApp(tk.Toplevel):
             if file_path:
                 # Export to Excel
                 df.to_excel(file_path, index=False, sheet_name='Clients')
-                messagebox.showinfo("Success", "Client data exported successfully!")
+                messagebox.showinfo("Success", "Klantgegevens succesvol geëxporteerd!")
         except Exception as e:
-            messagebox.showerror("Error", f"An error occurred while exporting: {str(e)}")
+            messagebox.showerror("Error", f"Er is een fout opgetreden bij het exporteren: {str(e)}")
 
     def init_client_list_frame(self):
         # Create a canvas and scrollbar for the client list
@@ -331,17 +331,17 @@ class BikeRentalApp(tk.Toplevel):
 
         # Validate all fields are filled
         if not all([name, email, phone, rental_type]):
-            messagebox.showerror("Error", "Please fill in all fields")
+            messagebox.showerror("Error", "Voer alle velden in")
             return
 
         # Validate email format
         if not self.is_valid_email(email):
-            messagebox.showerror("Error", "Please enter a valid email address")
+            messagebox.showerror("Error", "Vul een geldig email adres in")
             return
 
         # Check if phone is unique
         if not self.is_phone_unique(phone):
-            messagebox.showerror("Error", "This phone number is already registered")
+            messagebox.showerror("Error", "Dit nummer is al geregistreerd")
             return
 
         try:
@@ -350,12 +350,12 @@ class BikeRentalApp(tk.Toplevel):
             self.conn.commit()
             self.clear_form()
             self.update_client_list()
-            messagebox.showinfo("Success", "Client registered successfully!")
+            messagebox.showinfo("Success", "Klant geregistreerd")
         except sqlite3.IntegrityError as e:
-            messagebox.showerror("Error", "An error occurred while registering the client. Please try again.")
+            messagebox.showerror("Error", "Er is een fout opgetreden bij het registreren van de klant. Probeer opnieuw.")
             print(f"Database error: {e}")
         except Exception as e:
-            messagebox.showerror("Error", "An unexpected error occurred")
+            messagebox.showerror("Error", "Er is een onverwachte fout opgetreden: ")
             print(f"Unexpected error: {e}")
 
     def update_client(self):
@@ -363,7 +363,7 @@ class BikeRentalApp(tk.Toplevel):
         try:
             client_id = int(self.client_id_entry.get().strip())
         except ValueError:
-            messagebox.showerror("Error", "Please enter a valid client ID")
+            messagebox.showerror("Error", "Voer een geldig ID in: ")
             return
 
         name = self.name_entry.get().strip()
@@ -373,19 +373,19 @@ class BikeRentalApp(tk.Toplevel):
 
         # Validate all fields are filled
         if not all([name, email, phone, rental_type]):
-            messagebox.showerror("Error", "Please fill in all fields")
+            messagebox.showerror("Error", "Vul alle velden in.")
             return
 
         # Validate email format
         if not self.is_valid_email(email):
-            messagebox.showerror("Error", "Please enter a valid email address")
+            messagebox.showerror("Error", "Vul een geldig email adres in.")
             return
 
         # Check if phone is unique (excluding current client)
         self.cursor.execute("SELECT COUNT(*) FROM clients WHERE phone = ? AND id != ?", (phone, client_id))
         count = self.cursor.fetchone()[0]
         if count > 0:
-            messagebox.showerror("Error", "This phone number is already registered")
+            messagebox.showerror("Error", "Dit nummer is al geregistreerd")
             return
 
         try:
@@ -397,15 +397,15 @@ class BikeRentalApp(tk.Toplevel):
 
             # Check if any row was actually updated
             if self.cursor.rowcount == 0:
-                messagebox.showerror("Error", "No client found with the given ID")
+                messagebox.showerror("Error", "Geen klanten gevonden met dit ID")
                 return
 
             self.conn.commit()
             self.clear_form()
             self.update_client_list()
-            messagebox.showinfo("Success", "Client updated successfully!")
+            messagebox.showinfo("Success", "Klant geupdate!")
         except sqlite3.Error as e:
-            messagebox.showerror("Error", f"An error occurred while updating the client: {str(e)}")
+            messagebox.showerror("Error", f"Er is een fout opgetreden bij het updaten van de klant. {str(e)}")
 
     def clear_form(self):
         self.name_entry.delete(0, tk.END)
@@ -423,11 +423,11 @@ class BikeRentalApp(tk.Toplevel):
         clients = self.cursor.fetchall()
 
         # Add header
-        header = tk.Label(self.scrollable_frame, text="Registered Clients", font=("Arial", 16), bg="#f0f0f0")
+        header = tk.Label(self.scrollable_frame, text="Geregistreerde Klanten", font=("Arial", 16), bg="#f0f0f0")
         header.pack(pady=10)
 
         if not clients:
-            tk.Label(self.scrollable_frame, text="No clients registered yet.",
+            tk.Label(self.scrollable_frame, text="Nog geen klanten geregistreerd",
                      bg="#f0f0f0", font=("Arial", 14)).pack(pady=20)
         else:
             for client in clients:
@@ -463,11 +463,11 @@ class BikeRentalApp(tk.Toplevel):
         self.client_canvas.configure(scrollregion=self.client_canvas.bbox("all"))
 
     def remove_client(self, client_id):
-        if messagebox.askyesno("Confirm Removal", "Are you sure you want to remove this client?"):
+        if messagebox.askyesno("Confirm Removal", "Weet je zeker dat je deze klant wilt verwijderen?"):
             self.cursor.execute("DELETE FROM clients WHERE id = ?", (client_id,))
             self.conn.commit()
             self.update_client_list()
-            messagebox.showinfo("Success", "Client removed successfully!")
+            messagebox.showinfo("Success", "Klant verwijderd.")
 
 
 
