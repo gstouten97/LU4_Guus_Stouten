@@ -131,7 +131,7 @@ class LoginWindow(tk.Tk):
 
             if employee:
                 self.withdraw()  # Hide login window
-                bike_rental_app = BikeRentalApp(employee)
+                bike_rental_app = BikeRentalApp(employee, self)
                 bike_rental_app.protocol("WM_DELETE_WINDOW",
                                          lambda: self.on_rental_app_close(bike_rental_app))
             else:
@@ -148,9 +148,10 @@ class LoginWindow(tk.Tk):
 
 
 class BikeRentalApp(tk.Toplevel):
-    def __init__(self, employee):
+    def __init__(self, employee, login_window):
         super().__init__()
         self.employee = employee  # Store employee info (id, username, is_admin)
+        self.login_window = login_window
 
         self.title(f"Biker applicatie - Ingelogd als {employee[1]}")
         self.geometry("1920x1080")
@@ -162,7 +163,7 @@ class BikeRentalApp(tk.Toplevel):
 
         # Add logout button
         self.logout_button = tk.Button(self.top_frame, text="Log uit",
-                                       command=self.destroy,
+                                       command=self.log_out,
                                        bg="#f44336", fg="white",
                                        font=("Arial", 10),
                                        padx=10, pady=5)
@@ -216,6 +217,19 @@ class BikeRentalApp(tk.Toplevel):
 
         # Initial update of client list
         self.update_client_list()
+
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    def log_out(self):
+        self.destroy()
+        LoginWindow()
+
+    def on_closing(self):
+        self.destroy()
+        self.login_window.deiconify()  # Show login window
+        self.login_window.username_entry.delete(0, tk.END)
+        self.login_window.password_entry.delete(0, tk.END)
+        self.login_window.username_entry.focus()
 
     def export_to_excel(self):
         try:

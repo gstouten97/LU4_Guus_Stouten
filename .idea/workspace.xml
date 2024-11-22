@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42db8854-e905-4d5b-8c28-6ddfe79d6b85" name="Changes" comment="Added test file, added excel export for admin accounts">
+    <list default="true" id="42db8854-e905-4d5b-8c28-6ddfe79d6b85" name="Changes" comment="Changed button titles to dutch">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_biker_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_biker_app.py" afterDir="false" />
     </list>
@@ -190,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732278933361</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Changed button titles to dutch">
+      <option name="closed" value="true" />
+      <created>1732282866416</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732282866416</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +216,7 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Add test file" />
     <MESSAGE value="Added test file, added excel export for admin accounts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added test file, added excel export for admin accounts" />
+    <MESSAGE value="Changed button titles to dutch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed button titles to dutch" />
   </component>
 </project>
