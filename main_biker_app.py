@@ -215,6 +215,16 @@ class BikeRentalApp(tk.Toplevel):
                                          bg="#4CAF50", fg="white", font=("Arial", 12), padx=10, pady=5)
         self.register_button.grid(row=4, column=0, columnspan=2, padx=10, pady=20)
 
+        tk.Label(self.form_frame, text="Client ID:", bg="#f0f0f0").grid(row=7, column=0, padx=10, pady=10, sticky="e")
+        self.client_id_entry = tk.Entry(self.form_frame, font=("Arial", 12))
+        self.client_id_entry.grid(row=7, column=1, padx=10, pady=10)
+
+        self.update_button = tk.Button(self.form_frame, text="Update Client", command=self.update_client,
+                                       bg="#2196F3", fg="white", font=("Arial", 12), padx=10, pady=5)
+        self.update_button.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+
+        self.register_button.grid(row=6, column=0, columnspan=2, padx=10, pady=20)
+
         # Initial update of client list
         self.update_client_list()
 
@@ -285,7 +295,23 @@ class BikeRentalApp(tk.Toplevel):
                             email TEXT,
                             phone TEXT UNIQUE,
                             rental_type TEXT)""")
-        self.conn.commit()
+        dummy_clients = [
+            ("Guus S", "guus@guus.com", "123", "Bike"),
+            ("John Doe", "john.doe@example.com", "0612345678", "Bike"),
+            ("Emma Smith", "emma.smith@example.com", "0687654321", "Electric Bike"),
+            ("Michael Johnson", "michael.j@example.com", "0623456789", "Bike"),
+            ("Sarah Williams", "sarah.w@example.com", "0698765432", "Electric Bike"),
+            ("David Brown", "david.brown@example.com", "0643210987", "Bike")
+        ]
+
+        # Insert dummy data
+        try:
+            self.cursor.executemany("""
+                   INSERT OR IGNORE INTO clients (name, email, phone, rental_type) 
+                   VALUES (?, ?, ?, ?)""", dummy_clients)
+            self.conn.commit()
+        except sqlite3.Error as e:
+            print(f"Error inserting dummy data: {e}")
 
     def is_valid_email(self, email):
         # Regular expression for email validation
@@ -331,6 +357,55 @@ class BikeRentalApp(tk.Toplevel):
         except Exception as e:
             messagebox.showerror("Error", "An unexpected error occurred")
             print(f"Unexpected error: {e}")
+
+    def update_client(self):
+        # Get the client ID from the entry
+        try:
+            client_id = int(self.client_id_entry.get().strip())
+        except ValueError:
+            messagebox.showerror("Error", "Please enter a valid client ID")
+            return
+
+        name = self.name_entry.get().strip()
+        email = self.email_entry.get().strip()
+        phone = self.phone_entry.get().strip()
+        rental_type = self.rental_type.get()
+
+        # Validate all fields are filled
+        if not all([name, email, phone, rental_type]):
+            messagebox.showerror("Error", "Please fill in all fields")
+            return
+
+        # Validate email format
+        if not self.is_valid_email(email):
+            messagebox.showerror("Error", "Please enter a valid email address")
+            return
+
+        # Check if phone is unique (excluding current client)
+        self.cursor.execute("SELECT COUNT(*) FROM clients WHERE phone = ? AND id != ?", (phone, client_id))
+        count = self.cursor.fetchone()[0]
+        if count > 0:
+            messagebox.showerror("Error", "This phone number is already registered")
+            return
+
+        try:
+            self.cursor.execute("""
+                UPDATE clients 
+                SET name = ?, email = ?, phone = ?, rental_type = ? 
+                WHERE id = ?
+            """, (name, email, phone, rental_type, client_id))
+
+            # Check if any row was actually updated
+            if self.cursor.rowcount == 0:
+                messagebox.showerror("Error", "No client found with the given ID")
+                return
+
+            self.conn.commit()
+            self.clear_form()
+            self.update_client_list()
+            messagebox.showinfo("Success", "Client updated successfully!")
+        except sqlite3.Error as e:
+            messagebox.showerror("Error", f"An error occurred while updating the client: {str(e)}")
 
     def clear_form(self):
         self.name_entry.delete(0, tk.END)
