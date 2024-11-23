@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42db8854-e905-4d5b-8c28-6ddfe79d6b85" name="Changes" comment="Renamed unit test files, updated in application notifications all to dutch">
+    <list default="true" id="42db8854-e905-4d5b-8c28-6ddfe79d6b85" name="Changes" comment="Added 1 more unit test">
+      <change afterPath="$PROJECT_DIR$/Guus_Stouten_LU4.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_biker_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_biker_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/unit_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +256,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732291614992</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added 1 more unit test">
+      <option name="closed" value="true" />
+      <created>1732359683342</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1732359683342</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -281,6 +288,7 @@
     <MESSAGE value="Added readme file" />
     <MESSAGE value="Removed initial testing tests" />
     <MESSAGE value="Renamed unit test files, updated in application notifications all to dutch" />
-    <option name="LAST_COMMIT_MESSAGE" value="Renamed unit test files, updated in application notifications all to dutch" />
+    <MESSAGE value="Added 1 more unit test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added 1 more unit test" />
   </component>
 </project>
