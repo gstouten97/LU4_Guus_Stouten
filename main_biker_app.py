@@ -215,7 +215,7 @@ class BikeRentalApp(tk.Toplevel):
                                          bg="#4CAF50", fg="white", font=("Arial", 12), padx=10, pady=5)
         self.register_button.grid(row=4, column=0, columnspan=2, padx=10, pady=20)
 
-        tk.Label(self.form_frame, text="Client ID:", bg="#f0f0f0").grid(row=7, column=0, padx=10, pady=10, sticky="e")
+        tk.Label(self.form_frame, text="Klant ID:", bg="#f0f0f0").grid(row=7, column=0, padx=10, pady=10, sticky="e")
         self.client_id_entry = tk.Entry(self.form_frame, font=("Arial", 12))
         self.client_id_entry.grid(row=7, column=1, padx=10, pady=10)
 
