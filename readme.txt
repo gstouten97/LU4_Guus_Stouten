@@ -14,3 +14,5 @@ Wachtwoord: admin123
 medewerker account:
 Gebruikersnaam: employee
 Wachtwoord: employee123
+
+# Om de unit tests te draaien kan je in de console navigeren naar de code totdat je in de map met het "unit_test.py" bestand zit en dan het commando runnen: "pytest -v" 
